@@ -1,7 +1,7 @@
 const chai = require('chai');
 // const sinon = require('sinon');
 const { salesModel } = require('../../../src/models');
-const { salesFromModelId } = require('../mocks/sales.mock');
+const { salesFromDBId } = require('../mocks/sales.mock');
 
 const { expect } = chai;
 
@@ -17,6 +17,6 @@ describe('Realizando testes - SALES MODEL', function () {
 
         expect(saleById).to.be.an('array');
 
-        expect(saleById).to.be.deep.equal(salesFromModelId);
+        expect(saleById).to.be.deep.equal(salesFromDBId);
     });
 });
