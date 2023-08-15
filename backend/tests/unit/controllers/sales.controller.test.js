@@ -8,7 +8,7 @@ const { salesController } = require('../../../src/controllers');
 const { expect } = chai;
 chai.use(sinonChai);
 
-describe('Realizando testes - PRODUCT CONTROLLER', function () {
+describe('Realizando testes - SALES CONTROLLER', function () {
     it('Deve retornar um array com o status 200', async function () {
         sinon.stub(salesService, 'findAll').resolves({ status: 'OK', data: salesFromModel });
 

@@ -81,6 +81,34 @@ describe('Realizando testes - PRODUCT CONTROLLER', function () {
         expect(res.status).to.have.been.calledWith(201);
         expect(res.json).to.have.been.calledWith(insertedProductMock);
     });
+    it('Não cria um novo produto sem o campo "name" presente no body - status 400', async function () {
+        sinon.stub(productService, 'create').resolves({ status: 'BAD_REQUEST', data: { message: '"name" is required' } });
+
+        const req = { body: { } };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+
+        await productController.insertNewProduct(req, res);
+        
+        expect(res.status).to.have.been.calledWith(400);
+        expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+    });
+    it('Não cria um novo produto com body errado - status 422', async function () {
+        sinon.stub(productService, 'create').resolves({ status: 'INVALID_VALUES', data: { message: '"name" length must be at least 5 characters long' } });
+
+        const req = { body: { name: 'Prod' } };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+
+        await productController.insertNewProduct(req, res);
+
+        expect(res.status).to.have.been.calledWith(422);
+        expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
+    });
 
     afterEach(function () {
         sinon.restore();
