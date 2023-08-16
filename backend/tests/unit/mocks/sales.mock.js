@@ -45,8 +45,35 @@ const salesFromDBId = [
     },
   ];
 
+const insertMock = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
+const insertResultMock = {
+  id: 3,
+  itemsSold: [
+    {
+      productId: 1,
+      quantity: 1,
+    },
+    {
+      productId: 2,
+      quantity: 5,
+    },
+  ],
+};
+
 module.exports = {
     salesFromDB,
     salesFromDBId,
     salesFromModel,
+    insertMock,
+    insertResultMock,
 };
