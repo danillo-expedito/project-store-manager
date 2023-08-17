@@ -109,6 +109,20 @@ describe('Realizando testes - PRODUCT CONTROLLER', function () {
         expect(res.status).to.have.been.calledWith(422);
         expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
     });
+    it('Atualiza um produto com sucesso e retorna o status correto', async function () {
+        sinon.stub(productService, 'update').resolves({ status: 'OK', data: { id: 1, name: 'ProdutoX' } });
+
+        const req = { params: { id: 1 }, body: { name: 'ProdutoX' } };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+
+        await productController.updateProduct(req, res);
+
+        expect(res.status).to.have.been.calledWith(200);
+        expect(res.json).to.have.been.calledWith({ id: 1, name: 'ProdutoX' });
+    });
 
     afterEach(function () {
         sinon.restore();

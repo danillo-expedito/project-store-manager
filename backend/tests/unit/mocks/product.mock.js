@@ -47,10 +47,21 @@ const insertedProductMock = {
   name: 'Mjolnir',
 };
 
+const updateProductMock = {
+  name: 'Martelo do Batman',
+};
+
+const updatedProductMock = {
+  id: 1,
+  name: 'Martelo do Batman',
+};
+
 module.exports = {
     productsFromDB,
     insertedProductMock,
     productsFromModel,
     productFromDBId,
     productFromModelId,
+    updateProductMock,
+    updatedProductMock,
 };

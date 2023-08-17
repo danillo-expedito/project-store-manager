@@ -30,6 +30,13 @@ describe('Realizando testes - PRODUCT MODEL', function () {
         expect(insertedProduct).to.be.an('object');
         expect(insertedProduct).to.be.deep.equal(insertedProductMock);
     });
+    it('Atualiza um produto com sucesso', async function () {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        const updatedProduct = await productModel.update(1, 'Martelo do Batman');
+
+        expect(updatedProduct).to.be.an('object');
+        expect(updatedProduct).to.be.deep.equal({ id: 1, name: 'Martelo do Batman' });
+    });
 
     afterEach(function () {
         sinon.restore();
