@@ -37,6 +37,12 @@ describe('Realizando testes - PRODUCT MODEL', function () {
         expect(updatedProduct).to.be.an('object');
         expect(updatedProduct).to.be.deep.equal({ id: 1, name: 'Martelo do Batman' });
     });
+    it('Exclui um produto com sucesso', async function () {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        await productModel.exclude(1);
+
+        expect(connection.execute.calledOnce).to.be.equal(true);
+    });
 
     afterEach(function () {
         sinon.restore();

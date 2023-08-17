@@ -61,6 +61,21 @@ describe('Realizando testes - PRODUCT SERVICE', function () {
         expect(status).to.be.equal('NOT_FOUND');
         expect(data.message).to.be.equal('Product not found');
     });
+    it('Exclui um produto com sucesso e retorna o status da requisição', async function () {
+        sinon.stub(productModel, 'exclude').resolves();
+
+        const { status } = await productService.exclude(1);
+
+        expect(status).to.be.equal('DELETED');
+    });
+    it('Não exclui um produto quando o id é inválido', async function () {
+        sinon.stub(productModel, 'findById').resolves(null);
+        sinon.stub(productService, 'productExists').resolves(undefined);
+
+        const { status, data } = await productService.exclude(8);
+        expect(status).to.be.equal('NOT_FOUND');
+        expect(data.message).to.be.equal('Product not found');
+    });
 
     afterEach(function () {
         sinon.restore();

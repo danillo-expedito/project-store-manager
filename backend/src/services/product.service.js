@@ -23,14 +23,31 @@ const create = async (name) => {
     return { status: 'CREATED', data: newProduct };
 };
 
-const update = async (id, name) => {
-    const productExists = await productModel.findById(id);
-    if (!productExists) {
-        return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
+const productExists = async (id) => {
+    const verifyProduct = await productModel.findById(id);
+    if (!verifyProduct) {
+        return 'Product not found';
     }
+};
 
+const update = async (id, name) => {
+    const error = await productExists(id);
+    if (error) {
+        return { status: 'NOT_FOUND', data: { message: error } };
+    }
+    
     const updatedProduct = await productModel.update(id, name);
     return { status: 'OK', data: updatedProduct };
+};
+
+const exclude = async (id) => {
+    const error = await productExists(id);
+    if (error) {
+        return { status: 'NOT_FOUND', data: { message: error } };
+    }
+    
+    await productModel.exclude(id);
+    return { status: 'DELETED' };
 };
 
 module.exports = {
@@ -38,4 +55,6 @@ module.exports = {
     findById,
     create,
     update,
+    exclude,
+    productExists,
 };
