@@ -1,6 +1,6 @@
 const route = require('express').Router();
 const { productController } = require('../controllers');
-const validateProductFields = require('../middlewares/validateProductFields');
+const { validateProductFields } = require('../middlewares/validateProductFields');
 
 route.get('/', productController.findAll);
 
