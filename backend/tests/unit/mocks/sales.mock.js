@@ -89,6 +89,48 @@ const insertResultMock = {
   ],
 };
 
+const salesBodyWithoutProductId = [
+  {
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
+const salesBodyWithoutQuantity = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+  },
+];
+
+const salesBodyWithInvalidQuantity = [
+  {
+    productId: 2,
+    quantity: 0,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
+const salesBodyWithInvalidProductId = [
+  {
+    productId: 100,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
 module.exports = {
     salesFromDB,
     salesFromDBId,
@@ -96,4 +138,8 @@ module.exports = {
     salesFromModelId,
     insertMock,
     insertResultMock,
+    salesBodyWithoutProductId,
+    salesBodyWithoutQuantity,
+    salesBodyWithInvalidQuantity,
+    salesBodyWithInvalidProductId,
 };
