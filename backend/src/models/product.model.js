@@ -29,7 +29,7 @@ const update = async (id, name) => {
     await connection.execute(query, [name, id]);
 
     return { 
-        id,
+        id: Number(id),
         name,
     };
 };
