@@ -35,8 +35,14 @@ const update = async (id, name) => {
 };
 
 const exclude = async (id) => {
-    const query = 'DELETE FROM products WHERE id = ?';
-    await connection.execute(query, [id]);
+    try {
+        const query = 'DELETE FROM products WHERE id = ?';
+        console.log('Executing query:', query, 'with id:', id);
+        await connection.execute(query, [id]);
+        console.log(`Product with ID ${id} deleted successfully.`);
+    } catch (error) {
+        console.error('Error deleting product:', error);
+    }
 };
 
 module.exports = {

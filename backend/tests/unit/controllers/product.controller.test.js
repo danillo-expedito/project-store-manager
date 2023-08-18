@@ -129,12 +129,27 @@ describe('Realizando testes - PRODUCT CONTROLLER', function () {
         const req = { params: { id: 1 } };
         const res = {
             status: sinon.stub().returnsThis(),
-            json: sinon.stub(),
+            send: sinon.stub(),
         };
 
         await productController.deleteProduct(req, res);
 
         expect(res.status).to.have.been.calledWith(204);
+        expect(res.send).to.have.been.calledWith();
+    });
+    it('Não exclue um produto com id inválido e retorna o status correto', async function () {
+        sinon.stub(productService, 'exclude').resolves({ status: 'NOT_FOUND', data: { message: 'Product not found' } });
+
+        const req = { params: { id: 10 } };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+
+        await productController.deleteProduct(req, res);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
     });
 
     afterEach(function () {
