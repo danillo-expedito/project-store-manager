@@ -32,6 +32,12 @@ describe('Realizando testes - SALES MODEL', function () {
         expect(sale).to.have.property('id');
         expect(sale).to.be.deep.equal(insertResultMock);
     });
+    it('Exclui uma venda com sucesso', async function () {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        await salesModel.exclude(1);
+
+        expect(connection.execute.calledTwice).to.be.equal(true);
+    });
 
     afterEach(function () {
         sinon.restore();

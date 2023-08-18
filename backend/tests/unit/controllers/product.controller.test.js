@@ -123,7 +123,7 @@ describe('Realizando testes - PRODUCT CONTROLLER', function () {
         expect(res.status).to.have.been.calledWith(200);
         expect(res.json).to.have.been.calledWith({ id: 1, name: 'ProdutoX' });
     });
-    it('Exclue um produto com sucesso e retorna o status correto', async function () {
+    it('Exclui um produto com sucesso e retorna o status correto', async function () {
         sinon.stub(productService, 'exclude').resolves({ status: 'DELETED' });
 
         const req = { params: { id: 1 } };
@@ -137,7 +137,7 @@ describe('Realizando testes - PRODUCT CONTROLLER', function () {
         expect(res.status).to.have.been.calledWith(204);
         expect(res.send).to.have.been.calledWith();
     });
-    it('Não exclue um produto com id inválido e retorna o status correto', async function () {
+    it('Não exclui um produto com id inválido e retorna o status correto', async function () {
         sinon.stub(productService, 'exclude').resolves({ status: 'NOT_FOUND', data: { message: 'Product not found' } });
 
         const req = { params: { id: 10 } };

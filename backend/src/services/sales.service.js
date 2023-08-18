@@ -21,8 +21,17 @@ const create = async (itensSold) => {
     return { status: 'CREATED', data: insertedSale };
 };
 
+const exclude = async (id) => {
+    const saleExists = await findById(id);
+    if (saleExists.status === 'NOT_FOUND') return saleExists;
+
+    await salesModel.exclude(id);
+    return { status: 'DELETED' };
+};
+
 module.exports = {
     findAll,
     findById,
     create,
+    exclude,
 };

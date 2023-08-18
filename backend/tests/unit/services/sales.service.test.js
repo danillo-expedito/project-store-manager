@@ -46,6 +46,20 @@ describe('Realizando testes - SALES SERVICE', function () {
         expect(data).to.be.an('object');
         expect(data).to.be.deep.equal(insertResultMock);
     });
+    it('Exclui uma venda com sucesso e retorna o status da requisição', async function () {
+        sinon.stub(salesModel, 'exclude').resolves();
+
+        const { status } = await salesService.exclude(1);
+
+        expect(status).to.be.equal('DELETED');
+    });
+    it('Não exclui uma venda quando o id é inválido', async function () {
+        sinon.stub(salesModel, 'findById').resolves(null);
+
+        const { status, data } = await salesService.exclude(8);
+        expect(status).to.be.equal('NOT_FOUND');
+        expect(data.message).to.be.equal('Sale not found');
+    });
 
     afterEach(function () {
         sinon.restore();

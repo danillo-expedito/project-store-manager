@@ -23,8 +23,19 @@ const insertSale = async (req, res) => {
     res.status(mapStatusHTTP(status)).json(data);
 };
 
+const deleteSale = async (req, res) => {
+    const { id } = req.params;
+
+    const { status, data } = await salesService.exclude(id);
+
+    if (!data) return res.status(mapStatusHTTP(status)).send();
+
+    res.status(mapStatusHTTP(status)).json(data);
+};
+
 module.exports = {
     findAll,
     findById,
     insertSale,
+    deleteSale,
 };

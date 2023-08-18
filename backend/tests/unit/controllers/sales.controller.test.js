@@ -80,6 +80,34 @@ describe('Realizando testes - SALES CONTROLLER', function () {
         expect(res.status).to.have.been.calledWith(201);
         expect(res.json).to.have.been.calledWith(insertResultMock);
     });
+    it('Exclui um produto com sucesso e retorna o status correto', async function () {
+        sinon.stub(salesService, 'exclude').resolves({ status: 'DELETED' });
+
+        const req = { params: { id: 1 } };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            send: sinon.stub(),
+        };
+
+        await salesController.deleteSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(204);
+        expect(res.send).to.have.been.calledWith();
+    });
+    it('Não exclui um produto com id inválido e retorna o status correto', async function () {
+        sinon.stub(salesService, 'exclude').resolves({ status: 'NOT_FOUND', data: { message: 'Sale not found' } });
+
+        const req = { params: { id: 10 } };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+
+        await salesController.deleteSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(404);
+        expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
 
     afterEach(function () {
         sinon.restore();
