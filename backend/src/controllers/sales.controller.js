@@ -23,6 +23,15 @@ const insertSale = async (req, res) => {
     res.status(mapStatusHTTP(status)).json(data);
 };
 
+const updateSale = async (req, res) => {
+    const { saleId, productId } = req.params;
+    const { quantity } = req.body;
+
+    const { status, data } = await salesService.update(Number(saleId), Number(productId), quantity);
+
+    res.status(mapStatusHTTP(status)).json(data);
+};
+
 const deleteSale = async (req, res) => {
     const { id } = req.params;
 
@@ -38,4 +47,5 @@ module.exports = {
     findById,
     insertSale,
     deleteSale,
+    updateSale,
 };

@@ -30,6 +30,16 @@ const findById = async (id) => {
     return camelize(sale);
 };
 
+const findProductAndSale = async (saleId, productId) => {
+    const querySaleId = 'SELECT * FROM sales_products WHERE sale_id = ?;';
+    const queryProductId = 'SELECT * FROM sales_products WHERE sale_id = ? AND product_id = ?;';
+    const [[sale]] = await connection.execute(querySaleId, [saleId]);
+    const [[product]] = await connection.execute(queryProductId, [saleId, productId]);
+
+    if (!sale) return 'Sale not found';
+    if (!product) return 'Product not found in sale';
+};
+
 const insert = async (saleProduct) => {
     const [{ insertId }] = await connection.execute('INSERT INTO sales (date) VALUES (DEFAULT);');
     const query = 'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?);';
@@ -43,6 +53,18 @@ const insert = async (saleProduct) => {
     const itemsSold = saleProduct;
 
     return { id: insertId, itemsSold };
+};
+
+const update = async (saleId, productId, quantity) => {
+    const query = 'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?;';
+    await connection.execute(query, [quantity, saleId, productId]);
+
+    return {
+        date: new Date(),
+        productId,
+        quantity,
+        saleId,
+    };   
 };
 
 const exclude = async (id) => {
@@ -61,4 +83,6 @@ module.exports = {
     insert,
     findAmountOfSales,
     exclude,
+    update,
+    findProductAndSale,
 };

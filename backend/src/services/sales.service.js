@@ -21,6 +21,18 @@ const create = async (itensSold) => {
     return { status: 'CREATED', data: insertedSale };
 };
 
+const update = async (saleId, productId, quantity) => {
+    const error = await salesModel.findProductAndSale(saleId, productId);
+    if (error) {
+        return { status: 'NOT_FOUND', data: { message: error } };
+    }
+
+    const updatedSale = await salesModel.update(saleId, productId, quantity);
+    if (!updatedSale) return { status: 'INTERNAL_ERROR', data: { message: 'Sale not updated' } };
+
+    return { status: 'OK', data: updatedSale };
+};
+
 const exclude = async (id) => {
     const saleExists = await findById(id);
     if (saleExists.status === 'NOT_FOUND') return saleExists;
@@ -34,4 +46,5 @@ module.exports = {
     findById,
     create,
     exclude,
+    update,
 };

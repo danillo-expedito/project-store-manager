@@ -13,6 +13,16 @@ const validateSaleFields = async (req, res, next) => {
     next();
 };
 
+const validateUpdateSaleField = async (req, res, next) => {
+    const { body } = req;
+    const requiredFields = ['quantity'];
+
+    const error = checkRequierdFields(body, requiredFields);
+    if (error) return res.status(400).json({ message: error });
+
+    next();
+};
+
 const validateQuantity = async (req, res, next) => {
     const { body } = req;
     
@@ -45,4 +55,5 @@ module.exports = {
     validateSaleFields,
     validateQuantity,
     validateId,
+    validateUpdateSaleField,
 };
