@@ -45,10 +45,19 @@ const exclude = async (id) => {
     }
 };
 
+const searchProduct = async (name) => {
+    const query = 'SELECT * FROM products WHERE name LIKE ?';
+    const [product] = await connection.execute(query, [`%${name}%`]);
+    console.log(product);
+    
+    return product;
+};
+
 module.exports = {
     findAll,
     findById,
     insert,
     update,
     exclude,
+    searchProduct,
 };

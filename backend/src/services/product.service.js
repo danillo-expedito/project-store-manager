@@ -50,6 +50,21 @@ const exclude = async (id) => {
     return { status: 'DELETED' };
 };
 
+const searchProduct = async (name) => {
+    if (!name) {
+        const allProducts = await productModel.findAll();
+        console.log(allProducts);
+        return { status: 'OK', data: allProducts };
+    }
+
+    const product = await productModel.searchProduct(name);
+    if (!product) {
+        return { status: 'OK', data: [] };
+    }
+    console.log(product);
+    return { status: 'OK', data: product };
+};
+
 module.exports = {
     findAll,
     findById,
@@ -57,4 +72,5 @@ module.exports = {
     update,
     exclude,
     productExists,
+    searchProduct,
 };
