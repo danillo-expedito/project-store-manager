@@ -43,6 +43,14 @@ describe('Realizando testes - PRODUCT MODEL', function () {
 
         expect(connection.execute.calledOnce).to.be.equal(true);
     });
+    it('Recupera o produto por nome com sucesso', async function () {
+        sinon.stub(connection, 'execute').resolves(productFromDBId);
+        const name = 'Martelo';
+        const productByName = await productModel.searchProduct(name);
+
+        expect(productByName).to.be.an('array');
+        expect(productByName).to.be.deep.equal([productFromModelId]);
+    });
 
     afterEach(function () {
         sinon.restore();

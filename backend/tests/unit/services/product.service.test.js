@@ -1,7 +1,7 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const { productModel } = require('../../../src/models');
-const { productsFromDB, insertedProductMock, productsFromModel, updatedProductMock } = require('../mocks/product.mock');
+const { productsFromDB, insertedProductMock, productsFromModel, updatedProductMock, productFromModelId } = require('../mocks/product.mock');
 const { productService } = require('../../../src/services');
 
 const { expect } = chai;
@@ -75,6 +75,30 @@ describe('Realizando testes - PRODUCT SERVICE', function () {
         const { status, data } = await productService.exclude(8);
         expect(status).to.be.equal('NOT_FOUND');
         expect(data.message).to.be.equal('Product not found');
+    });
+    it('Recupera um produto de acordo com o nome', async function () {
+        sinon.stub(productModel, 'searchProduct').resolves([productsFromModel[0]]);
+
+        const { status, data } = await productService.searchProduct('Martelo');
+        expect(status).to.be.equal('OK');
+        expect(data).to.be.an('array');
+        expect(data).to.be.deep.equal([productFromModelId]);
+    });
+    it('Retorna todos os produtos quando o query está vazio', async function () {
+        sinon.stub(productModel, 'findAll').resolves(productsFromModel);
+
+        const { status, data } = await productService.searchProduct('');
+        expect(status).to.be.equal('OK');
+        expect(data).to.be.an('array');
+        expect(data).to.be.deep.equal(productsFromModel);
+    });
+    it('Retorna um array vazio caso nenhum produto seja encontrado com o query', async function () {
+        sinon.stub(productModel, 'searchProduct').resolves(null);
+
+        const { status, data } = await productService.searchProduct('Marmelada');
+        expect(status).to.be.equal('OK');
+        expect(data).to.be.an('array');
+        expect(data).to.be.deep.equal([]);
     });
 
     afterEach(function () {
