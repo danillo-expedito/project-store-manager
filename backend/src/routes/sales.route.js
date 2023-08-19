@@ -11,11 +11,10 @@ route.get('/:id', salesController.findById);
 route.post('/', validateSaleFields, validateQuantity, validateId, salesController.insertSale);
 
 route.put(
-  '/:saleId/products/:productId/quantity', 
-  validateUpdateSaleField,
-  validateQuantity,
-  salesController.updateSale,
-  );
+    '/:saleId/products/:productId/quantity', 
+    validateUpdateSaleField,
+    salesController.updateSale,
+);
 
 route.delete('/:id', salesController.deleteSale);
 module.exports = route;

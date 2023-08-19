@@ -1,4 +1,5 @@
 const { salesModel } = require('../models');
+const validateQtd = require('./validations/validateQtd');
 
 const findAll = async () => {
     const allSales = await salesModel.findAll();
@@ -26,6 +27,9 @@ const update = async (saleId, productId, quantity) => {
     if (error) {
         return { status: 'NOT_FOUND', data: { message: error } };
     }
+    
+    const errorQtd = validateQtd(quantity);
+    if (errorQtd) return { status: 'INVALID_VALUES', data: { message: errorQtd } };
 
     const updatedSale = await salesModel.update(saleId, productId, quantity);
     if (!updatedSale) return { status: 'INTERNAL_ERROR', data: { message: 'Sale not updated' } };

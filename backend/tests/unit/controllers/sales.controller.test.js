@@ -2,7 +2,7 @@ const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const { salesService } = require('../../../src/services');
-const { salesFromModel, salesFromDBId, insertResultMock, insertMock } = require('../mocks/sales.mock');
+const { salesFromModel, salesFromDBId, insertResultMock, insertMock, salesResponseUpdate, salesUpdateBody } = require('../mocks/sales.mock');
 const { salesController } = require('../../../src/controllers');
 
 const { expect } = chai;
@@ -107,6 +107,20 @@ describe('Realizando testes - SALES CONTROLLER', function () {
 
         expect(res.status).to.have.been.calledWith(404);
         expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+    it('Atualiza uma venda com sucesso e retorna o status correto', async function () {
+        sinon.stub(salesService, 'update').resolves({ status: 'OK', data: salesResponseUpdate });
+
+        const req = { params: { saleId: 1, productId: 1 }, body: salesUpdateBody };
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub(),
+        };
+
+        await salesController.updateSale(req, res);
+
+        expect(res.status).to.have.been.calledWith(200);
+        expect(res.json).to.have.been.calledWith(salesResponseUpdate);
     });
 
     afterEach(function () {

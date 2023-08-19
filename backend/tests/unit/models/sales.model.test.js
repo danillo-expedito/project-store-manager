@@ -38,6 +38,12 @@ describe('Realizando testes - SALES MODEL', function () {
 
         expect(connection.execute.calledTwice).to.be.equal(true);
     });
+    it('Atualiza uma venda com sucesso', async function () {
+        sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+        await salesModel.update(1, 1, 2);
+
+        expect(connection.execute.called).to.be.equal(true);
+    });
 
     afterEach(function () {
         sinon.restore();

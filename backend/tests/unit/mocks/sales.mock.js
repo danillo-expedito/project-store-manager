@@ -131,6 +131,15 @@ const salesBodyWithInvalidProductId = [
   },
 ];
 
+const salesUpdateBody = { quantity: 2 };
+
+const salesResponseUpdate = {
+  date: mockDate,
+  productId: 1,
+  quantity: 2,
+  saleId: 1,
+};
+
 module.exports = {
     salesFromDB,
     salesFromDBId,
@@ -142,4 +151,6 @@ module.exports = {
     salesBodyWithoutQuantity,
     salesBodyWithInvalidQuantity,
     salesBodyWithInvalidProductId,
+    salesUpdateBody,
+    salesResponseUpdate,
 };
